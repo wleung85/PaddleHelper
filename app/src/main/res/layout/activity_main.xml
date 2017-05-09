@@ -40,7 +40,7 @@
         android:layout_marginLeft="28dp"
         android:layout_marginStart="28dp"
         android:text="0"
-        android:textSize="60sp" />
+        android:textSize="55sp" />
 
     <TextView
         android:id="@+id/textViewSpmCount"
@@ -52,7 +52,7 @@
         android:layout_marginLeft="28dp"
         android:layout_marginStart="28dp"
         android:text="0"
-        android:textSize="60sp" />
+        android:textSize="55sp" />
 
     <Button
         android:id="@+id/buttonReset"
@@ -102,5 +102,29 @@
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <TextView
+        android:id="@+id/textViewAvgSpmTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewSpmTitle"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_toEndOf="@+id/space"
+        android:layout_toRightOf="@+id/space"
+        android:text="Average"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/textViewAvgSpmCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewAvgSpmTitle"
+        android:layout_alignStart="@+id/textViewAvgSpmTitle"
+        android:layout_below="@+id/textViewAvgSpmTitle"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:text=""
+        android:textSize="55sp"/>
 
 </RelativeLayout>

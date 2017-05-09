@@ -19,11 +19,12 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
 
     Button btnReset, btnHit;
-    TextView txtSpeed, txtSpm, txtLastSpm;
+    TextView txtSpeed, txtSpm, txtLastSpm, txtAvgSpm;
     int strokeNum;
     boolean started;
     long lastTime, currentTime;
     Toolbar mToolbar;
+    double sum, hitNum, spmActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,26 +38,38 @@ public class MainActivity extends AppCompatActivity {
         txtSpeed = (TextView) findViewById(R.id.textViewSpeedCount);
         txtSpm = (TextView) findViewById(R.id.textViewSpmCount);
         txtLastSpm = (TextView)findViewById(R.id.textViewLastSpm);
+        txtAvgSpm = (TextView)findViewById(R.id.textViewAvgSpmCount);
 
         started = false;
         strokeNum = getStrokeNum();
+        sum = 0.0;
+        hitNum = 0.0;
 
         btnHit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (btnReset.getText().equals("Reset")) {
+                    btnReset.setText("Stop");
+                }
                 if (!started) {
                     lastTime = System.nanoTime();
                     started = true;
                 }
                 else {
+                    //Updating actual stroke per min
                     if(!txtSpm.getText().equals("0")) {
                         txtLastSpm.setText(txtSpm.getText());
                     }
 
                     currentTime = System.nanoTime();
-                    txtSpm.setText(String.format("%.1f",((double)strokeNum*60000.00
-                            /TimeUnit.NANOSECONDS.toMillis(currentTime - lastTime))));
+                    spmActual = (double)strokeNum*60000.00/TimeUnit.NANOSECONDS.toMillis(currentTime - lastTime);
+                    txtSpm.setText(String.format("%.1f", spmActual));
                     lastTime = currentTime;
+
+                    //Updating average stroke per min
+                    hitNum++;
+                    sum += spmActual;
+                    txtAvgSpm.setText(String.format("%.1f", sum/hitNum));
 
                 }
             }
@@ -70,10 +83,15 @@ public class MainActivity extends AppCompatActivity {
                     started = false;
                     txtLastSpm.setText(txtSpm.getText());
                     txtSpm.setText("0");
+                    btnReset.setText("Reset");
                 }
 
                 else {
                     txtLastSpm.setText("");
+                    txtAvgSpm.setText("");
+                    sum = 0.0;
+                    hitNum = 0.0;
+                    btnReset.setText("Stop");
                 }
             }
         });
@@ -101,8 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int getStrokeNum() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int extracted = Integer.parseInt(pref.getString("strokePref", "3"));
-        return extracted;
+        return Integer.parseInt(pref.getString("strokePref", "3"));
     }
 
     @Override
