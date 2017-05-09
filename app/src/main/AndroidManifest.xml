@@ -18,11 +18,10 @@
         </activity>
 
         <activity
-            android:name=".FragmentPreferences"
-            android:label="PreferencesFragment" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="Preferences" />
+            android:name=".Prefs"
+            android:label="Start Activity">
+        </activity>
+
     </application>
 
 </manifest>

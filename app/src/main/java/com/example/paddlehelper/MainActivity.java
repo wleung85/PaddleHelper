@@ -88,11 +88,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_setting) {
-            Intent intent = new Intent();
-            intent.setClassName(this, "com.example.paddlehelper.SettingsActivity");
-            startActivity(intent);
+            Intent i = new Intent(MainActivity.this, Prefs.class);
+            startActivity(i);
+            return true;
         }
-
-        return super.onOptionsItemSelected(item);
+        else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }
