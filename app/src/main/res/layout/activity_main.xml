@@ -62,7 +62,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/space"
-        android:text="Reset"
+        android:text="Stop"
         android:textSize="30sp" />
 
     <TextView

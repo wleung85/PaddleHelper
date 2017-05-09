@@ -39,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
         txtLastSpm = (TextView)findViewById(R.id.textViewLastSpm);
 
         started = false;
+        strokeNum = getStrokeNum();
 
         btnHit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                strokeNum = getStrokeNum();
                 if (!started) {
                     lastTime = System.nanoTime();
                     started = true;
@@ -68,10 +68,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (started) {
                     started = false;
+                    txtLastSpm.setText(txtSpm.getText());
+                    txtSpm.setText("0");
                 }
 
                 else {
-                    txtSpm.setText("0");
                     txtLastSpm.setText("");
                 }
             }
@@ -100,7 +101,13 @@ public class MainActivity extends AppCompatActivity {
 
     private int getStrokeNum() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int extracted = Integer.parseInt(pref.getString("strokePref", "1"));
+        int extracted = Integer.parseInt(pref.getString("strokePref", "3"));
         return extracted;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        strokeNum = getStrokeNum();
     }
 }
