@@ -1,6 +1,8 @@
 package com.example.paddlehelper;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -37,12 +39,11 @@ public class MainActivity extends AppCompatActivity {
         txtLastSpm = (TextView)findViewById(R.id.textViewLastSpm);
 
         started = false;
-        //Need to make strokeNum an option
-        strokeNum = 1;
 
         btnHit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                strokeNum = getStrokeNum();
                 if (!started) {
                     lastTime = System.nanoTime();
                     started = true;
@@ -95,5 +96,11 @@ public class MainActivity extends AppCompatActivity {
         else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private int getStrokeNum() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        int extracted = Integer.parseInt(pref.getString("strokePref", "1"));
+        return extracted;
     }
 }
