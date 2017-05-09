@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.paddlehelper.MainActivity">
+
+    <TextView
+        android:id="@+id/textViewSpeedTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignLeft="@+id/toolbar"
+        android:layout_alignStart="@+id/toolbar"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="35dp"
+        android:text="Speed"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/textViewSpmTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="Strokes/min"
+        android:textSize="22sp"
+        android:layout_below="@+id/textViewSpeedTitle"
+        android:layout_alignLeft="@+id/textViewSpeedTitle"
+        android:layout_alignStart="@+id/textViewSpeedTitle" />
+
+    <TextView
+        android:id="@+id/textViewSpeedCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewSpeedTitle"
+        android:layout_alignStart="@+id/textViewSpeedTitle"
+        android:layout_below="@+id/textViewSpeedTitle"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:text="0"
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/textViewSpmCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewSpmTitle"
+        android:layout_alignStart="@+id/textViewSpmTitle"
+        android:layout_below="@+id/textViewSpmTitle"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:text="0"
+        android:textSize="60sp" />
+
+    <Button
+        android:id="@+id/buttonReset"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/space"
+        android:text="Reset"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/buttonHit"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/buttonReset"
+        android:layout_toRightOf="@+id/space"
+        android:text="Hit"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textViewLastSpm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewSpmCount"
+        android:layout_alignStart="@+id/textViewSpmCount"
+        android:layout_below="@+id/textViewSpmCount"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+</RelativeLayout>

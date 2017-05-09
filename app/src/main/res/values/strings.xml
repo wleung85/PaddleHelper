@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Paddle Helper</string>
+    <string name="menu_action_setting">Settings</string>
+    <string name="menu_action_about_us">About us</string>
+    <string name="speedUnit_default">1</string>
+    <string name="strokeNumber_default">3</string>
+</resources>
