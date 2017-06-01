@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
             txtSpeed.setText(String.format("%.1f",nCurrentSpeed));
 
             // Setting max speed
-            if (nCurrentSpeed > Integer.parseInt((String)txtMaxSpeed.getText())) {
+            if (nCurrentSpeed > Float.parseFloat((String)txtMaxSpeed.getText())) {
                 txtMaxSpeed.setText(String.format("%.1f",nCurrentSpeed));
             }
         }
