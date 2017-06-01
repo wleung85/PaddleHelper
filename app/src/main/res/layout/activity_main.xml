@@ -7,90 +7,107 @@
     tools:context="com.example.paddlehelper.MainActivity">
 
     <TextView
-        android:id="@+id/textViewSpeedTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignLeft="@+id/toolbar"
-        android:layout_alignStart="@+id/toolbar"
-        android:layout_marginLeft="22dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="35dp"
-        android:text="Speed"
-        android:textSize="22sp" />
-
-    <TextView
         android:id="@+id/textViewSpmTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:text="Strokes/min"
         android:textSize="22sp"
-        android:layout_below="@+id/textViewSpeedTitle"
-        android:layout_alignLeft="@+id/textViewSpeedTitle"
-        android:layout_alignStart="@+id/textViewSpeedTitle" />
+        android:layout_above="@+id/textViewSpmCount"
+        android:layout_alignLeft="@+id/textViewSpmCount"
+        android:layout_alignStart="@+id/textViewSpmCount" />
 
     <TextView
         android:id="@+id/textViewSpeedCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewSpeedTitle"
-        android:layout_alignStart="@+id/textViewSpeedTitle"
+        android:text="00.0"
+        android:textSize="85sp"
+        android:textAlignment="textEnd"
+        android:gravity="end"
         android:layout_below="@+id/textViewSpeedTitle"
-        android:layout_marginLeft="28dp"
-        android:layout_marginStart="28dp"
-        android:text="0"
-        android:textSize="55sp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/textViewSpmCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewSpmTitle"
-        android:layout_alignStart="@+id/textViewSpmTitle"
-        android:layout_below="@+id/textViewSpmTitle"
-        android:layout_marginLeft="28dp"
-        android:layout_marginStart="28dp"
-        android:text="0"
-        android:textSize="55sp" />
+        android:text="00.0"
+        android:textAlignment="textEnd"
+        android:gravity="end"
+        android:textSize="85sp"
+        android:layout_above="@+id/textViewLastSpmCount"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-    <Button
-        android:id="@+id/buttonReset"
+    <TextView
+        android:id="@+id/textViewLastSpmCount"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="00.0"
+        android:textAlignment="textEnd"
+        android:textSize="30sp"
         android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textViewSpmCount"
+        android:layout_alignEnd="@+id/textViewSpmCount" />
+
+    <TextView
+        android:id="@+id/textViewTimeCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:00"
+        android:textSize="50sp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/space"
-        android:text="Stop"
-        android:textSize="30sp" />
+        android:layout_above="@+id/textViewSpmTitle"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="50dp" />
 
     <TextView
-        android:id="@+id/space"
+        android:id="@+id/textViewTimeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"/>
+        android:text="Time"
+        android:textSize="22sp"
+        android:layout_above="@+id/textViewTimeCount"
+        android:layout_alignLeft="@+id/textViewSpmTitle"
+        android:layout_alignStart="@+id/textViewSpmTitle"
+        android:layout_marginBottom="0dp" />
 
-    <Button
-        android:id="@+id/buttonHit"
+    <TextView
+        android:id="@+id/textViewTimeLap"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="55sp"
+        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_alignTop="@+id/textViewTimeCount"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/buttonReset"
-        android:layout_toRightOf="@+id/space"
-        android:text="Hit"
-        android:textSize="30sp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
-        android:id="@+id/textViewLastSpm"
+        android:id="@+id/textViewSpeedTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewSpmCount"
-        android:layout_alignStart="@+id/textViewSpmCount"
-        android:layout_below="@+id/textViewSpmCount"
-        android:layout_marginTop="16dp"
-        android:textSize="18sp" />
+        android:text="Speed"
+        android:textSize="22sp"
+        android:layout_below="@+id/textViewTimeCount"
+        android:layout_alignLeft="@+id/textViewSpeedCount"
+        android:layout_alignStart="@+id/textViewSpeedCount" />
+
+    <TextView
+        android:id="@+id/textViewMaxSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="00.0"
+        android:textAlignment="textEnd"
+        android:textSize="30sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -103,28 +120,28 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <TextView
-        android:id="@+id/textViewAvgSpmTitle"
+    <Button
+        android:id="@+id/SPMButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textViewSpmTitle"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_toEndOf="@+id/space"
-        android:layout_toRightOf="@+id/space"
-        android:text="Average"
-        android:textSize="22sp" />
+        android:layout_below="@+id/textViewTimeCount"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textViewSpmCount"
+        android:layout_alignEnd="@+id/textViewSpmCount"
+        android:background="@android:color/transparent" />
 
-    <TextView
-        android:id="@+id/textViewAvgSpmCount"
+    <Button
+        android:id="@+id/SpeedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewAvgSpmTitle"
-        android:layout_alignStart="@+id/textViewAvgSpmTitle"
-        android:layout_below="@+id/textViewAvgSpmTitle"
-        android:layout_marginLeft="28dp"
-        android:layout_marginStart="28dp"
-        android:text=""
-        android:textSize="55sp"/>
+        android:layout_alignLeft="@+id/textViewSpeedCount"
+        android:layout_alignStart="@+id/textViewSpeedCount"
+        android:layout_below="@+id/textViewTimeCount"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent" />
 
 </RelativeLayout>

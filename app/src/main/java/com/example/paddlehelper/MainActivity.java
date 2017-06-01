@@ -12,9 +12,11 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,15 +31,18 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity implements LocationListener{
 
     private static final int PERMS_REQUEST_CODE = 111;
+    private static final String SPM_TAG = "SPM Count";
+    private static final String SPEED_TAG = "Speed Count";
 
-    Button btnReset, btnHit;
-    TextView txtSpeed, txtSpm, txtLastSpm, txtAvgSpm;
+    Button btnHit, btnSpeed;
+    TextView txtSpeed, txtMaxSpeed, txtSpm, txtLastSpm;
     int strokeNum;
-    boolean started;
+    boolean SPMstarted, speedStarted;
     long lastTime, currentTime;
     Toolbar mToolbar;
-    double sum, hitNum, spmActual;
+    double spmActual;
     LocationManager lm;
+    //GestureDetectorCompat mDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,74 +51,77 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        btnReset = (Button) findViewById(R.id.buttonReset);
-        btnHit = (Button) findViewById(R.id.buttonHit);
+
         txtSpm = (TextView) findViewById(R.id.textViewSpmCount);
-        txtLastSpm = (TextView) findViewById(R.id.textViewLastSpm);
-        txtAvgSpm = (TextView) findViewById(R.id.textViewAvgSpmCount);
+        txtLastSpm = (TextView) findViewById(R.id.textViewLastSpmCount);
+        btnHit = (Button) findViewById(R.id.SPMButton);
 
-        if (hasPermissions()) {
-            lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        }
-        else {
-            requestPerms();
-        }
+        txtSpeed = (TextView) findViewById(R.id.textViewSpeedCount);
+        txtMaxSpeed = (TextView) findViewById (R.id.textViewMaxSpeed);
+        btnSpeed = (Button) findViewById(R.id.SpeedButton);
+        lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-        started = false;
+        SPMstarted = false;
         strokeNum = getStrokeNum();
-        sum = 0.0;
-        hitNum = 0.0;
 
+        //Hitting SPM (i.e. Hit)
         btnHit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-
-                if (btnReset.getText().equals("Reset")) {
-                    btnReset.setText("Stop");
-                }
-                if (!started) {
+                if (!SPMstarted) {
                     lastTime = System.nanoTime();
-                    started = true;
-                }
-                else {
-                    //Updating actual stroke per min
-                    if(!txtSpm.getText().equals("0")) {
+                    SPMstarted = true;
+
+                    //Setting Last SPM
+                    if(!txtSpm.getText().equals("00.0")) {
                         txtLastSpm.setText(txtSpm.getText());
                     }
 
+                    //Indicating waiting
+                    txtSpm.setText("wait");
+                }
+                else {
+                    //Updating actual stroke per min
                     currentTime = System.nanoTime();
                     spmActual = (double)strokeNum*60000.00/TimeUnit.NANOSECONDS.toMillis(currentTime - lastTime);
                     txtSpm.setText(String.format("%.1f", spmActual));
-                    lastTime = currentTime;
 
-                    //Updating average stroke per min
-                    hitNum++;
-                    sum += spmActual;
-                    txtAvgSpm.setText(String.format("%.1f", sum/hitNum));
-
+                    SPMstarted = false;
                 }
             }
         });
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
+        // Long press on SPM (to reset)
+        btnHit.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                SPMstarted = false;
+                txtSpm.setText("00.0");
+
+                return true;
+            }
+        });
+
+        btnSpeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (started) {
-                    started = false;
-                    txtLastSpm.setText(txtSpm.getText());
-                    txtSpm.setText("0");
-                    btnReset.setText("Reset");
+                if (hasPermissions()) {
+                    // Fine Location permission has been granted
+                    measureSpeed();
                 }
 
                 else {
-                    txtLastSpm.setText("");
-                    txtAvgSpm.setText("");
-                    sum = 0.0;
-                    hitNum = 0.0;
-                    btnReset.setText("Stop");
+                    // Fine Location permission has not been granted
+                    requestPerms();
                 }
+            }
+        });
+
+        btnSpeed.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d(SPEED_TAG, "Long Click");
+                return true;
             }
         });
 
@@ -152,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     @Override
     public void onLocationChanged(Location location) {
 
-        txtSpeed = (TextView) findViewById(R.id.textViewSpeedCount);
         if(location==null) {
             txtSpeed.setText("Null");
         }
@@ -210,19 +217,34 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
             case PERMS_REQUEST_CODE:
 
                 for (int res : grantResults) {
+                    // If user granted all permissions
                     allowed = allowed && (res == PackageManager.PERMISSION_GRANTED);
                 }
 
                 break;
-
             default:
+
+                // If user didn't grant permissions
                 allowed = false;
                 break;
         }
 
-        if (!allowed) {
-            Toast.makeText(this,"Location Permissions denied.", Toast.LENGTH_SHORT).show();
+        if (allowed) {
+            // User granted permission, measure speed
+            measureSpeed();
         }
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    Toast.makeText(this, "GPS Permissions denied", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private void measureSpeed(){
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 250, 0, this);
+        onLocationChanged(null);
     }
 
 }
