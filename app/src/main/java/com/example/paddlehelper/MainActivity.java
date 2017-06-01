@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                     else {
                         // Stop measuring speed
                         lm.removeUpdates(MainActivity.this);
-                        txtSpeed.setText("00.0");
                         speedStarted = false;
                     }
                 }
@@ -130,7 +129,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         btnSpeed.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.d(SPEED_TAG, "Long Click");
+                // Stop measuring speed
+                lm.removeUpdates(MainActivity.this);
+                txtSpeed.setText("00.0");
+                speedStarted = false;
                 return true;
             }
         });
