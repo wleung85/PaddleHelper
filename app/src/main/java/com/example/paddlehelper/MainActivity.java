@@ -107,7 +107,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
             public void onClick(View v) {
                 if (hasPermissions()) {
                     // Fine Location permission has been granted
-                    measureSpeed();
+                    if (!speedStarted) {
+                        // Start measuring speed
+                        measureSpeed();
+                        speedStarted = true;
+                    }
+                    else {
+                        // Stop measuring speed
+                        lm.removeUpdates(MainActivity.this);
+                        txtSpeed.setText("00.0");
+                        speedStarted = false;
+                    }
                 }
 
                 else {
@@ -152,9 +162,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        if (speedStarted) {
+            lm.removeUpdates(this);
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         strokeNum = getStrokeNum();
+        if (speedStarted) {
+            measureSpeed();
+        }
     }
 
     @Override
@@ -169,7 +190,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
             if (pref.getString("speedUnitPref", "2").equals("1")) {
                 nCurrentSpeed = nCurrentSpeed * (float)3.6;
             }
-            txtSpeed.setText(String.valueOf(nCurrentSpeed));
+            txtSpeed.setText(String.format("%.1f",nCurrentSpeed));
+
+            // Setting max speed
+            if (nCurrentSpeed > Integer.parseInt((String)txtMaxSpeed.getText())) {
+                txtMaxSpeed.setText(String.format("%.1f",nCurrentSpeed));
+            }
         }
     }
 
