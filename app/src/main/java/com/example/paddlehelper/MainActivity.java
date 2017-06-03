@@ -11,8 +11,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.System;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements LocationListener{
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     Toolbar mToolbar;
     double spmActual;
     LocationManager lm;
-    //GestureDetectorCompat mDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         txtMaxSpeed = (TextView) findViewById (R.id.textViewMaxSpeed);
         btnSpeed = (Button) findViewById(R.id.SpeedButton);
         lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
 
         SPMstarted = false;
         strokeNum = getStrokeNum();
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                     //Updating actual stroke per min
                     currentTime = System.nanoTime();
                     spmActual = (double)strokeNum*60000.00/TimeUnit.NANOSECONDS.toMillis(currentTime - lastTime);
-                    txtSpm.setText(String.format("%.1f", spmActual));
+                    txtSpm.setText(String.format(Locale.CANADA,"%.1f", spmActual));
 
                     SPMstarted = false;
                 }
@@ -192,11 +193,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
             if (pref.getString("speedUnitPref", "2").equals("1")) {
                 nCurrentSpeed = nCurrentSpeed * (float)3.6;
             }
-            txtSpeed.setText(String.format("%.1f",nCurrentSpeed));
+            txtSpeed.setText(String.format(Locale.CANADA,"%.1f",nCurrentSpeed));
 
             // Setting max speed
             if (nCurrentSpeed > Float.parseFloat((String)txtMaxSpeed.getText())) {
-                txtMaxSpeed.setText(String.format("%.1f",nCurrentSpeed));
+                txtMaxSpeed.setText(String.format(Locale.CANADA,"%.1f",nCurrentSpeed));
             }
         }
     }

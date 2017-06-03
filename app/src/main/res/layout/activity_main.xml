@@ -53,39 +53,25 @@
         android:layout_alignEnd="@+id/textViewSpmCount" />
 
     <TextView
-        android:id="@+id/textViewTimeCount"
+        android:id="@+id/textViewStopwatchCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="38dp"
         android:text="00:00:00"
-        android:textSize="50sp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:textSize="80sp"
         android:layout_above="@+id/textViewSpmTitle"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="50dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/textViewTimeTitle"
+        android:id="@+id/textViewStopwatchTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time"
-        android:textSize="22sp"
-        android:layout_above="@+id/textViewTimeCount"
+        android:layout_above="@+id/textViewStopwatchCount"
         android:layout_alignLeft="@+id/textViewSpmTitle"
         android:layout_alignStart="@+id/textViewSpmTitle"
-        android:layout_marginBottom="0dp" />
-
-    <TextView
-        android:id="@+id/textViewTimeLap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="55sp"
-        android:layout_marginRight="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_alignTop="@+id/textViewTimeCount"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginBottom="0dp"
+        android:text="Stopwatch"
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/textViewSpeedTitle"
@@ -93,7 +79,7 @@
         android:layout_height="wrap_content"
         android:text="Speed"
         android:textSize="22sp"
-        android:layout_below="@+id/textViewTimeCount"
+        android:layout_below="@+id/textViewStopwatchCount"
         android:layout_alignLeft="@+id/textViewSpeedCount"
         android:layout_alignStart="@+id/textViewSpeedCount" />
 
@@ -124,7 +110,7 @@
         android:id="@+id/SPMButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewTimeCount"
+        android:layout_below="@+id/textViewStopwatchCount"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
@@ -138,10 +124,29 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textViewSpeedCount"
         android:layout_alignStart="@+id/textViewSpeedCount"
-        android:layout_below="@+id/textViewTimeCount"
+        android:layout_below="@+id/textViewStopwatchCount"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/textTimeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:textSize="22sp"
+        android:layout_above="@+id/textClock2"
+        android:layout_alignRight="@+id/textClock2"
+        android:layout_alignEnd="@+id/textClock2" />
+
+    <TextClock
+        android:id="@+id/textClock2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewStopwatchTitle"
+        android:layout_alignEnd="@+id/textViewStopwatchCount"
+        android:layout_alignRight="@+id/textViewStopwatchCount"
+        android:textSize="40sp" />
 
 </RelativeLayout>
