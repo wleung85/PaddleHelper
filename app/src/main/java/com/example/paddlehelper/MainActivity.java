@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     private static final String SPEED_TAG = "Speed Count";
 
     Button btnHit, btnSpeed;
-    TextView txtSpeed, txtMaxSpeed, txtSpm, txtLastSpm;
+    TextView txtSpeed, txtMaxSpeed, txtSpeedTitle, txtSpm, txtLastSpm;
     int strokeNum;
     boolean SPMstarted, speedStarted;
     long lastTime, currentTime;
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         btnHit = (Button) findViewById(R.id.SPMButton);
 
         txtSpeed = (TextView) findViewById(R.id.textViewSpeedCount);
+        txtSpeedTitle = (TextView) findViewById(R.id.textViewSpeedTitle);
         txtMaxSpeed = (TextView) findViewById (R.id.textViewMaxSpeed);
         btnSpeed = (Button) findViewById(R.id.SpeedButton);
         lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
             }
         });
 
+        // Measure speed
         btnSpeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,11 +110,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                     if (!speedStarted) {
                         // Start measuring speed
                         measureSpeed();
+                        txtSpeedTitle.setText("Speed (M)");
                         speedStarted = true;
                     }
                     else {
                         // Stop measuring speed
                         lm.removeUpdates(MainActivity.this);
+                        txtSpeedTitle.setText("Speed");
                         speedStarted = false;
                     }
                 }
@@ -127,9 +131,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         btnSpeed.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                // Stop measuring speed
+                // Reset measuring speed
                 lm.removeUpdates(MainActivity.this);
+                txtSpeedTitle.setText("Speed");
                 txtSpeed.setText("00.0");
+                txtMaxSpeed.setText("00.0");
                 speedStarted = false;
                 return true;
             }
