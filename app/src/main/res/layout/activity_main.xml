@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="38dp"
-        android:text="00:00:00"
+        android:text="00:00.0"
         android:textSize="80sp"
         android:layout_above="@+id/textViewSpmTitle"
         android:layout_centerHorizontal="true" />
@@ -73,6 +73,17 @@
         android:layout_marginBottom="0dp"
         android:text="Stopwatch"
         android:textSize="22sp" />
+
+    <Button
+        android:id="@+id/StopwatchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewStopwatchTitle"
+        android:layout_alignStart="@+id/textViewStopwatchTitle"
+        android:layout_alignTop="@+id/textViewStopwatchTitle"
+        android:layout_alignBottom="@+id/textViewStopwatchCount"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent" />
 
     <TextView
         android:id="@+id/textViewSpeedTitle"
@@ -145,9 +156,9 @@
         android:id="@+id/textClock2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textViewStopwatchTitle"
-        android:layout_alignEnd="@+id/textViewStopwatchCount"
-        android:layout_alignRight="@+id/textViewStopwatchCount"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:layout_above="@+id/StopwatchButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

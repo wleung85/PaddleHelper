@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -32,14 +33,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     private static final String SPM_TAG = "SPM Count";
     private static final String SPEED_TAG = "Speed Count";
 
-    Button btnHit, btnSpeed;
-    TextView txtSpeed, txtMaxSpeed, txtSpeedTitle, txtSpm, txtLastSpm;
+    Button btnHit, btnSpeed, btnStopwatch;
+    TextView txtSpeed, txtMaxSpeed, txtSpeedTitle, txtSpm, txtLastSpm, txtStopwatch;
     int strokeNum;
-    boolean SPMstarted, speedStarted;
-    long lastTime, currentTime;
+    boolean SPMstarted, speedStarted, stopwatchStarted;
+    long lastTime, currentTime, secs, mins, hrs;
     Toolbar mToolbar;
     double spmActual;
     LocationManager lm;
+    String seconds, minutes, milliseconds;
+
+    private TextView tempTextView; //Temporary TextView
+    private Button tempBtn; //Temporary Button
+    private Handler mHandler = new Handler();
+    private long startTime;
+    private long elapsedTime;
+    private final int REFRESH_RATE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +68,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         btnSpeed = (Button) findViewById(R.id.SpeedButton);
         lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
+        txtStopwatch = (TextView) findViewById(R.id.textViewStopwatchCount);
+        btnStopwatch = (Button) findViewById(R.id.StopwatchButton);
 
         SPMstarted = false;
         strokeNum = getStrokeNum();
+        stopwatchStarted = false;
 
         //Hitting SPM (i.e. Hit)
         btnHit.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +149,39 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                 txtSpeed.setText("00.0");
                 txtMaxSpeed.setText("00.0");
                 speedStarted = false;
+                return true;
+            }
+        });
+
+        btnStopwatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!stopwatchStarted) {
+                    if ((((TextView) findViewById(R.id.textViewStopwatchCount)).getText().equals("00:00.0"))) {
+                        startTime = System.currentTimeMillis();
+                    }
+                    else {
+                        startTime = System.currentTimeMillis() - elapsedTime;
+                    }
+                    stopwatchStarted = true;
+                    mHandler.removeCallbacks(startTimer);
+                    mHandler.postDelayed(startTimer, 0);
+                }
+
+                else {
+                    mHandler.removeCallbacks(startTimer);
+                    stopwatchStarted = false;
+                }
+            }
+        });
+
+        btnStopwatch.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                stopwatchStarted = false;
+                mHandler.removeCallbacks(startTimer);
+                txtStopwatch.setText("00:00.0");
+
                 return true;
             }
         });
@@ -278,5 +323,50 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 250, 0, this);
         onLocationChanged(null);
     }
+
+    private void updateTimer (float time) {
+        secs = (long)(time/1000);
+        mins = (long)((time/1000)/60);
+        hrs = (long)(((time/1000)/60)/60);
+
+        milliseconds = String.valueOf((long)time);
+        if (milliseconds.length() == 2) {
+            milliseconds = "0" + milliseconds;
+        }
+        if (milliseconds.length() <= 1) {
+            milliseconds = "0";
+        }
+        if (milliseconds.length() > 2) {
+            milliseconds = milliseconds.substring(milliseconds.length()-3, milliseconds.length()-2);
+        }
+
+        secs = secs % 60;
+        seconds = String.valueOf(secs);
+        if (secs == 0) {
+            seconds = "00";
+        }
+        if (secs < 10 && secs > 0) {
+            seconds = "0" + seconds;
+        }
+
+        mins = mins % 60;
+        minutes = String.valueOf(mins);
+        if (mins == 0) {
+            minutes = "00";
+        }
+        if (mins < 10 && mins > 0) {
+            minutes = "0" + minutes;
+        }
+
+        ((TextView)findViewById(R.id.textViewStopwatchCount)).setText(minutes + ":" + seconds + "." + milliseconds);
+    }
+
+    private Runnable startTimer = new Runnable() {
+        public void run() {
+            elapsedTime = System.currentTimeMillis() - startTime;
+            updateTimer(elapsedTime);
+            mHandler.postDelayed(this,REFRESH_RATE);
+        }
+    };
 
 }
