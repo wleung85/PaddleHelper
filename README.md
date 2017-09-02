@@ -4,4 +4,4 @@ This app is meant to help dragon boat coaches during practices. This app can act
 
 ## How to use
 
-![Main screen](https://github.com/wleung85/PaddleHelper/img/tutorial1.png?raw=true)
+![Main screen](./img/tutorial1.png)
